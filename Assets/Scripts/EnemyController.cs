@@ -17,6 +17,7 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField] NavMeshAgent nma;
 
+    
     private PlayerController pc;
 
     private bool InReachOfPlayer;
@@ -41,6 +42,8 @@ public class EnemyController : MonoBehaviour
         {
             pc = FindAnyObjectByType<PlayerController>();
             target = pc.transform;
+            
+            
         }
     }
 

@@ -8,8 +8,8 @@ public class LevelController : MonoBehaviour
     [SerializeField] float RequiredXp = 10;
 
     [SerializeField] float RequiredXpMultiplier = 1.4f;
-    float CurrentLevel;
-    float CurrentXp;
+    [SerializeField] float CurrentLevel;
+    [SerializeField] float CurrentXp;
 
     [SerializeField] public GameObject LevelUpGui;
 
@@ -33,7 +33,7 @@ public class LevelController : MonoBehaviour
         CurrentXp = CurrentXp + IncomingXP;
         xpSlider.value = CurrentXp;
 
-        if(CurrentXp >= RequiredXp)
+        if (CurrentXp >= RequiredXp)
         {
             TriggerLevelUp();
         }
@@ -46,11 +46,16 @@ public class LevelController : MonoBehaviour
 
         // LevelUpGui.SetActive(true);
 
+
+
+        CurrentXp = CurrentXp - RequiredXp;
+
         RequiredXp = RequiredXp + Random.Range(0.7f, 1.3f) * CurrentLevel * RequiredXpMultiplier;
 
         xpSlider.maxValue = RequiredXp;
 
-        xpSlider.value = 0;
+
+        xpSlider.value = CurrentXp;
 
 
     }

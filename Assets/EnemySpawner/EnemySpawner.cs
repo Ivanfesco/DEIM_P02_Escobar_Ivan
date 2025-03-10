@@ -24,10 +24,9 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        if(Random.Range(1,1000) <= spawnchance)
+        spawnchance = Time.timeSinceLevelLoad; 
+        if(Random.Range(1,10000) <= spawnchance)
         {
-            spawnchance = Time.timeSinceLevelLoad;
             radiusspawnloc = Random.insideUnitCircle.normalized * maxspawndist;
 
             spawnloc = new Vector3(playertrf.position.x, 0, playertrf.position.z) + new Vector3 (radiusspawnloc.x, playertrf.position.y, radiusspawnloc.y);
