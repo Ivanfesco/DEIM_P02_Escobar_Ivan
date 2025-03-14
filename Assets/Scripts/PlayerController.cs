@@ -30,7 +30,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] LevelController LevelCont;
 
-    int[] nullObjectsToRemove;
+
+    public float Health = 100;
+
 
     float XpMult = 1;
     bool hasObjectInHand;
@@ -38,7 +40,15 @@ public class PlayerController : MonoBehaviour
     bool moving;
     bool canAttack = true;
 
-    float damage = 1;
+    public float damage = 1;
+
+    public float incomingDamageMult = 1;
+
+    public float HealthRegen;
+
+    public float regentimer;
+
+    public float regencooldown = 90;
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +58,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        regentimer = regentimer + Time.deltaTime;
+
+        if(regentimer > regencooldown)
+        {
+            Health = Health + HealthRegen;
+            regentimer = 0;
+        }
 
         moving = false;
 
@@ -111,7 +129,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-
+        
 
     }
 
@@ -195,7 +213,7 @@ public class PlayerController : MonoBehaviour
                 enemycontrollertoattack = triggergameobjects[objects].GetComponent<EnemyController>();
                 if (enemycontrollertoattack != null)
                 {
-                    enemycontrollertoattack.ReceiveDamage(transform.position, damage);
+                    enemycontrollertoattack.ReceiveDamage(transform.forward, damage);
                 }
             }
 
@@ -217,4 +235,11 @@ public class PlayerController : MonoBehaviour
         LevelCont.AddXp(IncomingXP * XpMult);
     }
 
+
+
+    public void ReceiveDamage(float incomingDamage)
+    {
+        Health = Health - incomingDamage * incomingDamageMult;
+        print(Health);
+    }
 }

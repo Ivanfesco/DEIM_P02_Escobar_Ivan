@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Data.Common;
+using JetBrains.Annotations;
 using NUnit.Framework.Constraints;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -17,7 +18,7 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField] NavMeshAgent nma;
 
-    
+
     private PlayerController pc;
 
     private bool InReachOfPlayer;
@@ -28,6 +29,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] float Health = 3;
 
     bool canTakeDamage = true;
+
+    [SerializeField] float damage = 1;
 
     [SerializeField] GameObject XpObj;
 
@@ -42,8 +45,8 @@ public class EnemyController : MonoBehaviour
         {
             pc = FindAnyObjectByType<PlayerController>();
             target = pc.transform;
-            
-            
+
+
         }
     }
 
@@ -56,7 +59,7 @@ public class EnemyController : MonoBehaviour
             if (attacktimer <= 0)
             {
                 ExecuteAttack();
-                attacktimer = 5;
+                attacktimer = 3;
             }
         }
 
@@ -88,7 +91,7 @@ public class EnemyController : MonoBehaviour
     {
 
 
-        if (!other.isTrigger)
+        if (!other.isTrigger && other.gameObject.CompareTag("Player"))
         {
             InReachOfPlayer = true;
         }
@@ -96,9 +99,10 @@ public class EnemyController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-
-        InReachOfPlayer = false;
-
+        if (other.gameObject.CompareTag("Player"))
+        {
+            InReachOfPlayer = false;
+        }
     }
 
     private void ExecuteAttack()
@@ -107,7 +111,13 @@ public class EnemyController : MonoBehaviour
     }
 
 
-
+    public void DealDamage()
+    {
+        if(InReachOfPlayer)
+        {
+            pc.ReceiveDamage(damage);
+        }
+    }
     public void ReceiveDamage(Vector3 playerpos, float damage)
     {
         if (canTakeDamage)
@@ -117,7 +127,7 @@ public class EnemyController : MonoBehaviour
             nma.enabled = true;
             animator.SetTrigger("hit");
 
-            rb.AddForce(-transform.forward * 15, ForceMode.Impulse);
+            rb.AddForce(playerpos * 3500 * Time.deltaTime, ForceMode.Impulse );
 
 
             if (Health <= 0)
