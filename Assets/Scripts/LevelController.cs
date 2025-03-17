@@ -1,6 +1,5 @@
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,19 +22,19 @@ public class LevelController : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI FirstItemDesc;
 
-    [SerializeField] Texture FirstItemIcon;
+    [SerializeField] UnityEngine.UI.Image FirstItemIcon;
 
     [SerializeField] TextMeshProUGUI SecondItemName;
 
     [SerializeField] TextMeshProUGUI SecondItemDesc;
 
-    [SerializeField] Texture SecondItemIcon;
+    [SerializeField] UnityEngine.UI.Image SecondItemIcon;
 
     [SerializeField] TextMeshProUGUI ThirdItemName;
 
     [SerializeField] TextMeshProUGUI ThirdItemDesc;
 
-    [SerializeField] Texture ThirdItemIcon;
+    [SerializeField] UnityEngine.UI.Image ThirdItemIcon;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -48,10 +47,6 @@ public class LevelController : MonoBehaviour
     void Update()
     {
 
-        if(Input.GetKeyDown(KeyCode.L))
-        {
-            TriggerLevelUp();
-        }
 
     }
 
@@ -73,7 +68,7 @@ public class LevelController : MonoBehaviour
 
         LevelUpGui.SetActive(true);
 
-        LevelUpGui.GetComponent<UpgradeController>().GenerateUpgrades();
+        LevelUpGui.GetComponentInParent<UpgradeController>().GenerateUpgrades();
 
         CurrentXp = CurrentXp - RequiredXp;
 
@@ -84,21 +79,31 @@ public class LevelController : MonoBehaviour
 
         xpSlider.value = CurrentXp;
 
+        Time.timeScale = 0;
+
     }
 
-    public void ShowUpgrades(string Name1, string Description1, Texture Icon1, string Name2, string Description2, Texture Icon2, string Name3, string Description3, Texture Icon3)
+    public void ShowUpgrades(string Name1, string Description1, UnityEngine.UI.Image Icon1, string Name2, string Description2, UnityEngine.UI.Image Icon2, string Name3, string Description3, UnityEngine.UI.Image Icon3)
     {
         FirstItemName.text = Name1;
         FirstItemDesc.text = Description1;
-        FirstItemIcon = Icon1;
+        FirstItemIcon.sprite = Icon1.sprite;
 
         SecondItemName.text = Name2;
         SecondItemDesc.text = Description2;
-        SecondItemIcon = Icon2;
+        SecondItemIcon.sprite = Icon2.sprite;
 
         ThirdItemName.text = Name3;
         ThirdItemDesc.text = Description3;
-         ThirdItemIcon = Icon3;  
+         ThirdItemIcon.sprite = Icon3.sprite;  
+    }
+
+    public void UpgradeSelected()
+    {
+                LevelUpGui.SetActive(false);
+                Time.timeScale = 1;
+
+
     }
 
 }

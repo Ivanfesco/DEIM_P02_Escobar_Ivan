@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Collections;
-using Unity.VisualScripting;
-using UnityEditor.Callbacks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -50,6 +48,15 @@ public class PlayerController : MonoBehaviour
 
     public float regencooldown = 90;
 
+    [SerializeField] TextMeshProUGUI hptext;
+
+    [SerializeField] GameObject gameovercanvas;
+
+        [SerializeField] GameObject gamewoncanvas;
+
+        [SerializeField] TextMeshProUGUI timetext;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,9 +66,20 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
+        timetext.text = ((int)Time.timeSinceLevelLoad).ToString();
+
+        if (Time.timeSinceLevelLoad > 300)
+        {
+            gamewoncanvas.SetActive(true);
+            Time.timeScale = 0;
+        }
+
+
+        hptext.text = ((int)Health).ToString();
+
         regentimer = regentimer + Time.deltaTime;
 
-        if(regentimer > regencooldown)
+        if (regentimer > regencooldown)
         {
             Health = Health + HealthRegen;
             regentimer = 0;
@@ -111,25 +129,15 @@ public class PlayerController : MonoBehaviour
             {
                 playerAnimator.SetTrigger("attacking");
                 canAttack = false;
+                attacksource.pitch = Random.Range(0.95f,1.05f);
                 attacksource.Play();
                 ExecuteAttack();
             }
         }
 
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (!hasObjectInHand)
-            {
-                PickObjectUp();
-            }
-            else
-            {
-                playerAnimator.SetTrigger("Throwing");
-            }
-        }
-
         
+
 
     }
 
@@ -240,6 +248,13 @@ public class PlayerController : MonoBehaviour
     public void ReceiveDamage(float incomingDamage)
     {
         Health = Health - incomingDamage * incomingDamageMult;
-        print(Health);
+        if (Health <= 0)
+        {
+
+            gameovercanvas.SetActive(true);
+            Time.timeScale = 0;
+        }
     }
+
+
 }

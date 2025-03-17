@@ -21,7 +21,7 @@ private Vector3 target;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         RaycastHit hit;
         
@@ -33,11 +33,11 @@ private Vector3 target;
 
             while(Vector3.Distance(playerTrf.position, target) > 5 )
             {
-              target = Vector3.MoveTowards(target, playerTrf.position, 0.01f);
+              target = Vector3.MoveTowards(target, playerTrf.position, 0.05f);
             }
             
             
-                transform.position = Vector3.MoveTowards(transform.position, target, 0.1f);;
+                transform.position = Vector3.MoveTowards(transform.position, target, 0.5f);;
             
      
 

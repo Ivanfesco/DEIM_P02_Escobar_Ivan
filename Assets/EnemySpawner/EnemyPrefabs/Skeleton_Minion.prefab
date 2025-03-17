@@ -145,6 +145,8 @@ MonoBehaviour:
   Health: 3
   damage: 1
   XpObj: {fileID: 9028900331880002655, guid: 0a3c771430db73543b86b49601d24416, type: 3}
+  particlestospawn: {fileID: 668996687185404502, guid: f0e8c899c5ca98642b6b4806fbf90742,
+    type: 3}
 --- !u!136 &110095748122186073
 CapsuleCollider:
   m_ObjectHideFlags: 0

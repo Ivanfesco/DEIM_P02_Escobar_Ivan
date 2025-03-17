@@ -1,5 +1,4 @@
 using System.Runtime.InteropServices;
-using Microsoft.Unity.VisualStudio.Editor;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,23 +12,22 @@ public class ItemInfo : MonoBehaviour
     [SerializeField] public string ItemDesc;
 
 
-    [SerializeField] public Texture ItemIcon;
+    [SerializeField] public UnityEngine.UI.Image ItemIcon;
 
 
-    [SerializeField] PlayerController pc;
+    [SerializeField] public PlayerController pc;
 
-    [SerializeField] LevelController lc;
+    [SerializeField] public LevelController lc;
 
     void Start()
     {
 
-        pc = FindAnyObjectByType<PlayerController>();
-        lc = pc.gameObject.GetComponent<LevelController>();
-        AddItem();
+        
         
     }
     public void AddItem()
     {
+        print("aaa");
         switch(ItemName){
         case "Crown":
         Crown(); 

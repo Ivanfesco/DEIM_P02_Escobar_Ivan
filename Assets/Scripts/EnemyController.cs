@@ -36,6 +36,8 @@ public class EnemyController : MonoBehaviour
 
     GameObject SpawnedObj;
 
+    [SerializeField] GameObject particlestospawn;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -127,13 +129,14 @@ public class EnemyController : MonoBehaviour
             nma.enabled = true;
             animator.SetTrigger("hit");
 
-            rb.AddForce(playerpos * 3500 * Time.deltaTime, ForceMode.Impulse );
+            rb.AddForce(playerpos * 15 , ForceMode.VelocityChange );
 
 
             if (Health <= 0)
             {
                 SpawnedObj = Instantiate(XpObj, gameObject.transform.position, Quaternion.identity);
                 SpawnedObj.GetComponent<XPObjController>().pc = pc;
+                Instantiate(particlestospawn, transform.position, Quaternion.identity);
                 Destroy(gameObject);
             }
         }
